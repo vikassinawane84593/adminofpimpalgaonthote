@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
       ),
 
 
-      home:  Lighttimetableupload()//Mainnavigation()//Complaintscreen()//Mainnavigation(),
+      home:  Mainnavigation()//Mainnavigation()//Complaintscreen()//Mainnavigation(),
     );
   }
 }
