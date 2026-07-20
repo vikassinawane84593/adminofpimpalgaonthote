@@ -3,22 +3,17 @@ import 'package:flutter/material.dart';
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
 
-  const CustomAppBar({
-    super.key,
-    required this.title,
-  });
+  const CustomAppBar({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
-    return  AppBar(
+    return AppBar(
       backgroundColor: const Color(0xFFD8EFD9),
       title: Row(
         children: [
           CircleAvatar(
-            radius:  27,
-            backgroundImage: const AssetImage(
-              'images/welcomepagephoto.png',
-            ),
+            radius: 27,
+            backgroundImage: const AssetImage('images/welcomepagephoto.png'),
           ),
 
           const SizedBox(width: 15),
@@ -29,7 +24,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  title,//'पिंपळगाव थोटे',
+                  title, //'पिंपळगाव थोटे',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
@@ -43,7 +38,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                    fontSize:  15,
+                    fontSize: 15,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
                   ),

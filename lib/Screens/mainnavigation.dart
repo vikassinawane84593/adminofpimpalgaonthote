@@ -1,5 +1,4 @@
-import 'package:adminpanelofpimpalgaonthtevilage/Screens/homeScreen.dart';
-import 'package:adminpanelofpimpalgaonthtevilage/Screens/light_timetable_screen.dart';
+import 'package:adminpanelofpimpalgaonthtevilage/Screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
 class Mainnavigation extends StatefulWidget {
@@ -27,7 +26,6 @@ class _MainnavigationState extends State<Mainnavigation> {
     _ComingSoonScreen(title: 'Photo Gallery'),
     _ComingSoonScreen(title: 'Complaints'),
     _ComingSoonScreen(title: 'Officers'),
-    LightTimetableScreen(),
     _ComingSoonScreen(title: 'Notices'),
     _ComingSoonScreen(title: 'Logout'),
   ];

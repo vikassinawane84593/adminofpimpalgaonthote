@@ -1,4 +1,3 @@
-
 import 'package:adminpanelofpimpalgaonthtevilage/model/complaintmodel.dart';
 
 List<Complaintmodel> complaintList = [

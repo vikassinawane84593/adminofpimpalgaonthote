@@ -1,12 +1,11 @@
 import 'package:adminpanelofpimpalgaonthtevilage/Screens/full_image_screen.dart';
-import 'package:adminpanelofpimpalgaonthtevilage/Screens/light_timetable_screen.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/customwidgets/complaintwidget.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/customwidgets/countwidget.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/customwidgets/lighttimetable.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/customwidgets/recentlyimage.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/customwidgets/zatpatkruti.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/data/app_colour.dart';
-import 'package:adminpanelofpimpalgaonthtevilage/data/dummy%20data.dart';
+import 'package:adminpanelofpimpalgaonthtevilage/data/dummy_data.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/theme/appdecoration.dart';
 import 'package:flutter/material.dart';
 
@@ -302,42 +301,26 @@ class _HomescreenState extends State<Homescreen> {
                               color: Colors.orangeAccent,
                               icon: Icons.sunny,
                               ontap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) =>
-                                        const LightTimetableScreen(),
-                                  ),
-                                );
-                              },
+
+                              }
+                                )
+                          ]
+
                             ),
+                      ),
 
                             SizedBox(width: 20),
-
-                            Lighttimetable(
-                              color: Colors.blue,
-                              icon: Icons.nightlight_round,
-                              ontap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) =>
-                                        const LightTimetableScreen(),
-                                  ),
-                                );
-                              },
-                            ),
                           ],
                         ),
                       ),
-                    ],
-                  ),
+
+                  )
+          ],
                 ),
               ),
-            ],
+
           ),
-        ),
-      ),
-    );
+        );
+
   }
 }
