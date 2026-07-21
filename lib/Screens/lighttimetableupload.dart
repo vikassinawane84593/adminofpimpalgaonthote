@@ -130,23 +130,29 @@ class _LighttimetableuploadState extends State<Lighttimetableupload> {
 
               ),
 
-              ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      )
-                  ),
-                  onPressed: (){},
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      'बदल जतन करा',
-                      style: TextStyle(
-                          color: Colors.white
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: SizedBox(
+                  width: 350,
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.green,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          )
                       ),
-                    ),
-                  ))
+                      onPressed: (){},
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'बदल जतन करा',
+                          style: TextStyle(
+                              color: Colors.white
+                          ),
+                        ),
+                      )),
+                ),
+              )
 
             ],
           ),

@@ -2,13 +2,19 @@ import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
+  final   action;
 
-  const CustomAppBar({super.key, required this.title});
+  const CustomAppBar({
+    super.key,
+    required this.title,
+    this.action
+  });
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: const Color(0xFFD8EFD9),
+      actions: action,
       title: Row(
         children: [
           CircleAvatar(
@@ -34,7 +40,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   ),
                 ),
                 Text(
-                  'ग्रामपंचायत',
+                  'ग्रामपंचायत पिंपळगाव थोटे',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(

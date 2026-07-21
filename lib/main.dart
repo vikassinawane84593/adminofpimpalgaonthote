@@ -1,4 +1,5 @@
-import 'package:adminpanelofpimpalgaonthtevilage/Screens/lighttimetableupload.dart';
+import 'package:adminpanelofpimpalgaonthtevilage/Screens/addgalleryscreen.dart';
+import 'package:adminpanelofpimpalgaonthtevilage/Screens/imagescreen.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/Screens/mainnavigation.dart';
 import 'package:flutter/material.dart';
 
@@ -42,7 +43,7 @@ class MyApp extends StatelessWidget {
       ),
 
 
-      home:  Mainnavigation()//Mainnavigation()//Complaintscreen()//Mainnavigation(),
+      home:  Mainnavigation()//Imagescreen()//Imagescreen()//Mainnavigation()//Complaintscreen()//Mainnavigation(),
     );
   }
 }

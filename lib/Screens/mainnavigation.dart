@@ -1,4 +1,5 @@
 import 'package:adminpanelofpimpalgaonthtevilage/Screens/home_screen.dart';
+import 'package:adminpanelofpimpalgaonthtevilage/Screens/imagescreen.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/Screens/lighttimetableupload.dart';
 import 'package:flutter/material.dart';
 
@@ -24,10 +25,17 @@ class _MainnavigationState extends State<Mainnavigation> {
 
   final List<Widget> _pages = const [
     Homescreen(),
-    _ComingSoonScreen(title: 'Photo Gallery'),
-    _ComingSoonScreen(title: 'Complaints'),
+
+    Imagescreen(),
+
+    _ComingSoonScreen(title: 'complaint'),
+
     _ComingSoonScreen(title: 'Officers'),
+
     Lighttimetableupload(),
+
+    _ComingSoonScreen(title: 'Officers'),
+
     _ComingSoonScreen(title: 'Logout'),
   ];
 
