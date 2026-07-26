@@ -1,6 +1,7 @@
 import 'package:adminpanelofpimpalgaonthtevilage/Screens/addgalleryscreen.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/Screens/imagescreen.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/Screens/mainnavigation.dart';
+import 'package:adminpanelofpimpalgaonthtevilage/Screens/warningscreen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -43,7 +44,7 @@ class MyApp extends StatelessWidget {
       ),
 
 
-      home:  Mainnavigation()//Imagescreen()//Imagescreen()//Mainnavigation()//Complaintscreen()//Mainnavigation(),
+      home:  Mainnavigation()//WarningUploadScreen()//Mainnavigation()//Imagescreen()//Imagescreen()//Mainnavigation()//Complaintscreen()//Mainnavigation(),
     );
   }
 }

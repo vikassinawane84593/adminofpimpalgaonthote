@@ -1,4 +1,5 @@
 import 'package:adminpanelofpimpalgaonthtevilage/Screens/addgalleryscreen.dart';
+import 'package:adminpanelofpimpalgaonthtevilage/Screens/full_image_screen.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/customwidgets/Imagewidget.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/customwidgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +39,9 @@ class _ImagescreenState extends State<Imagescreen> {
                   onPressed: (){
                   Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (_)=>AddGalleryScreen()));
+                      MaterialPageRoute(builder: (_)=>AddGalleryScreen())
+
+                  );
 
                   }
                   , child: Text(
@@ -53,7 +56,12 @@ class _ImagescreenState extends State<Imagescreen> {
                 itemBuilder: (context,index) {
                   return ImageCard(
                     imagePath: 'https://picsum.photos/300/$index',
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(
+                          builder: (_)=>FullImageScreen(imageurl: 'https://picsum.photos/300/$index',)
+                      ),
+                      );
+                    },
                   );
                 }
                 ),

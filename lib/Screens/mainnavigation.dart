@@ -1,6 +1,9 @@
+import 'package:adminpanelofpimpalgaonthtevilage/Screens/complaintscreen.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/Screens/home_screen.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/Screens/imagescreen.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/Screens/lighttimetableupload.dart';
+import 'package:adminpanelofpimpalgaonthtevilage/Screens/officersscreen.dart';
+import 'package:adminpanelofpimpalgaonthtevilage/Screens/warningscreen.dart';
 import 'package:flutter/material.dart';
 
 class Mainnavigation extends StatefulWidget {
@@ -28,13 +31,18 @@ class _MainnavigationState extends State<Mainnavigation> {
 
     Imagescreen(),
 
-    _ComingSoonScreen(title: 'complaint'),
+    Complaintscreen(),
 
-    _ComingSoonScreen(title: 'Officers'),
+    Officersscreen(),
 
     Lighttimetableupload(),
 
-    _ComingSoonScreen(title: 'Officers'),
+
+    WarningUploadScreen(),
+    
+    Officersscreen(),
+
+
 
     _ComingSoonScreen(title: 'Logout'),
   ];

@@ -215,10 +215,9 @@ class _HomescreenState extends State<Homescreen> {
                         itemCount: 5,
                         itemBuilder: (context, index) {
                           return Complaintwidget(
-                            color:
-                                AppColors.avatarColors[index %
-                                    (AppColors.avatarColors.length)],
+                            color: AppColors.avatarColors[index % (AppColors.avatarColors.length)],
                             complaintmodel: complaintList[index],
+                            isshow: false,
                           );
                         },
                       ),
