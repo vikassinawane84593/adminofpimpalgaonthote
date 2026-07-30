@@ -1,4 +1,4 @@
-import 'package:adminpanelofpimpalgaonthtevilage/Screens/addgalleryscreen.dart';
+import 'package:adminpanelofpimpalgaonthtevilage/Screens/addphotoscreen.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/Screens/full_image_screen.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/customwidgets/Imagewidget.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/customwidgets/custom_appbar.dart';

@@ -22,6 +22,7 @@ class _EditComplaintScreenState extends State<EditComplaintScreen> {
 
   @override
   void initState() {
+
     super.initState();
 
     nameController = TextEditingController(text: widget.complaint.name);

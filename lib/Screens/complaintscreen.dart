@@ -17,7 +17,7 @@ class _ComplaintscreenState extends State<Complaintscreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: 'पिंपळगाव थोटे'),
+    //  appBar: CustomAppBar(title: 'पिंपळगाव थोटे'),
 
 
       body: ListView.builder(

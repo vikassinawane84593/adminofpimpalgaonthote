@@ -1,6 +1,8 @@
-import 'package:adminpanelofpimpalgaonthtevilage/Screens/addgalleryscreen.dart';
+import 'package:adminpanelofpimpalgaonthtevilage/Screens/addofficerscreen.dart';
+import 'package:adminpanelofpimpalgaonthtevilage/Screens/editoficerscreen.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/Screens/imagescreen.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/Screens/mainnavigation.dart';
+import 'package:adminpanelofpimpalgaonthtevilage/Screens/officersscreen.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/Screens/warningscreen.dart';
 import 'package:flutter/material.dart';
 

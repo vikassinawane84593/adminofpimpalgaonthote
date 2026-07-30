@@ -1,7 +1,11 @@
+import 'package:adminpanelofpimpalgaonthtevilage/Screens/addphotoscreen.dart';
+import 'package:adminpanelofpimpalgaonthtevilage/Screens/complaintscreen.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/Screens/full_image_screen.dart';
+import 'package:adminpanelofpimpalgaonthtevilage/Screens/imagescreen.dart';
+import 'package:adminpanelofpimpalgaonthtevilage/Screens/lighttimetableupload.dart';
+import 'package:adminpanelofpimpalgaonthtevilage/Screens/officersscreen.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/customwidgets/complaintwidget.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/customwidgets/countwidget.dart';
-import 'package:adminpanelofpimpalgaonthtevilage/customwidgets/lighttimetable.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/customwidgets/recentlyimage.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/customwidgets/zatpatkruti.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/data/app_colour.dart';
@@ -40,9 +44,10 @@ class _HomescreenState extends State<Homescreen> {
                 ),
               ),
 
-              SizedBox(height: 20),
+              SizedBox(height: 30,),
 
-              SizedBox(height: 10),
+
+
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Padding(
@@ -53,7 +58,12 @@ class _HomescreenState extends State<Homescreen> {
                         myColour: Colors.green,
                         count: '10',
                         title: 'एकूण तक्रारी',
-                        onTaps: () {},
+                        onTaps: () {
+                          Navigator.push(context,
+                            MaterialPageRoute(builder: (_)=>Complaintscreen())
+                          );
+
+                        },
                         icons: Icons.message,
                       ),
 
@@ -63,19 +73,27 @@ class _HomescreenState extends State<Homescreen> {
                         myColour: Colors.orangeAccent,
                         count: '25',
                         title: 'सर्व फोटो',
-                        onTaps: () {},
+                        onTaps: () {
+                          Navigator.push(context,
+                          MaterialPageRoute(builder: (_)=>Imagescreen()));
+
+                        },
                         icons: Icons.photo,
                       ),
 
                       SizedBox(width: 20),
 
-                      Countwidget(
+                      /* Countwidget(
                         myColour: Colors.blue,
                         count: '1',
                         title: 'वेळापत्रक नोंदी',
-                        onTaps: () {},
+                        onTaps: () {
+
+
+
+                        },
                         icons: Icons.calendar_month_rounded,
-                      ),
+                      ),*/
 
                       SizedBox(width: 20),
 
@@ -83,19 +101,17 @@ class _HomescreenState extends State<Homescreen> {
                         myColour: Colors.deepPurple,
                         count: '9',
                         title: ' एकूण पदाधिकारी',
-                        onTaps: () {},
+                        onTaps: () {
+                          
+                          Navigator.push(context, MaterialPageRoute(builder: (_)=>Officersscreen()));
+                          
+                        },
                         icons: Icons.person_2_outlined,
                       ),
 
                       SizedBox(width: 10),
 
-                      Countwidget(
-                        myColour: Colors.green,
-                        count: '10',
-                        title: 'एकूण तक्रारी',
-                        onTaps: () {},
-                        icons: Icons.message,
-                      ),
+
                     ],
                   ),
                 ),
@@ -138,18 +154,38 @@ class _HomescreenState extends State<Homescreen> {
                               color: Colors.orangeAccent,
                               icons: Icons.photo,
                               title: 'फोटो अपलोड करा',
+                              ontaps: (){
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (_)=>AddGalleryScreen())
+                                );
+                              },
                             ),
 
                             Zatpatkruti(
                               color: Colors.blue,
                               icons: Icons.calendar_month_rounded,
                               title: 'वेळापत्रक बदल',
+                              ontaps:  () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => Lighttimetableupload())
+                                );
+                              }
                             ),
 
                             Zatpatkruti(
                               color: Colors.deepPurple,
                               icons: Icons.person_2_outlined,
                               title: 'नवीन अधिकारी जोडा',
+                              ontaps: () {
+                            Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                            builder: (_) => AddGalleryScreen())
+                            );
+                            },
                             ),
                           ],
                         ),
@@ -274,7 +310,9 @@ class _HomescreenState extends State<Homescreen> {
                 ),
               ),
 
-              Padding(
+             //// its extra
+
+             /* Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
                   decoration: AppDecoration.containerDecoration(Colors.white),
@@ -313,7 +351,7 @@ class _HomescreenState extends State<Homescreen> {
                         ),
                       ),
 
-                  )
+                  )*/
           ],
                 ),
               ),

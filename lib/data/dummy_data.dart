@@ -61,27 +61,27 @@ List<Complaintmodel> complaintList = [
 final List<Map<String, String>> officers = [
   {
     "name": "Vikas Sonawane",
-    "position": "Sarpanch",
+    "position": "सरपंच",
     "phone": "8459360064",
   },
   {
     "name": "Rahul Patil",
-    "position": "Deputy Sarpanch",
+    "position": "उपसरपंच",
     "phone": "9876543210",
   },
   {
     "name": "Amit Shinde",
-    "position": "Gram Sevak",
+    "position": "ग्रामसेवक",
     "phone": "9876543211",
   },
   {
     "name": "Sneha Jadhav",
-    "position": "Member",
+    "position": "ग्रामपंचायत सदस्य",
     "phone": "9876543212",
   },
   {
     "name": "Priya Pawar",
-    "position": "Member",
+    "position": "ग्रामपंचायत सदस्य",
     "phone": "9876543213",
   },
 ];
