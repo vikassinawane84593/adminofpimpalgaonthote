@@ -39,10 +39,6 @@ class _MainnavigationState extends State<Mainnavigation> {
 
 
     WarningUploadScreen(),
-    
-    Officersscreen(),
-
-
 
     _ComingSoonScreen(title: 'Logout'),
   ];

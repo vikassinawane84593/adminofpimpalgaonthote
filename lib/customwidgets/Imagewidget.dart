@@ -23,10 +23,45 @@ class ImageCard extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: Image.network(
+
                 imagePath,
                 width: double.infinity,
                 height: 200,
                 fit: BoxFit.cover,
+
+                loadingBuilder: (context,child,loadingprogress){
+                  if(loadingprogress==null){
+                    return child;
+                  }
+
+                  return CircularProgressIndicator(
+                    color: Colors.black,
+                  );
+                },
+
+                errorBuilder: (context, error, stackTrace) {
+                  return Container(
+                    height: 200,
+                    color: Colors.grey.shade300,
+                    child: const Center(
+                      child: Text("Image Not Found"),
+                    ),
+                  );
+                },
+
+
+                frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+                  if (frame == null) {
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        color: Colors.black,
+                      ),
+                    );
+                  }
+
+                  return child;
+                },
+
               ),
             ),
           ),

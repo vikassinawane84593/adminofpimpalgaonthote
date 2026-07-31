@@ -1,3 +1,4 @@
+import 'package:adminpanelofpimpalgaonthtevilage/Screens/addofficerscreen.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/Screens/addphotoscreen.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/Screens/complaintscreen.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/Screens/full_image_screen.dart';
@@ -183,7 +184,7 @@ class _HomescreenState extends State<Homescreen> {
                             Navigator.push(
                             context,
                             MaterialPageRoute(
-                            builder: (_) => AddGalleryScreen())
+                            builder: (_) => AddOfficerScreen())
                             );
                             },
                             ),
@@ -226,12 +227,21 @@ class _HomescreenState extends State<Homescreen> {
                             padding: const EdgeInsets.only(right: 24),
                             child: Row(
                               children: [
-                                const Text(
-                                  'सर्व पहा',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14,
-                                    color: Colors.green,
+                                
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8),
+                                  child: InkWell(
+                                    onTap:(){
+                                      Navigator.push(context,MaterialPageRoute(builder: (_)=>Complaintscreen()));
+
+                                    },
+                                    child: const Text(
+                                        'सर्व पाहा',
+                                        style: TextStyle(
+                                          color: Colors.green,
+                                          fontWeight: FontWeight.bold
+                                        ),
+                                    ),
                                   ),
                                 ),
 
