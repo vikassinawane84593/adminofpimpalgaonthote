@@ -1,3 +1,8 @@
+import 'package:adminpanelofpimpalgaonthtevilage/Screens/mainnavigation.dart';
+import 'package:adminpanelofpimpalgaonthtevilage/servise/FirebaseServise.dart';
+import 'package:adminpanelofpimpalgaonthtevilage/servise/hive_servise.dart';
+import 'package:adminpanelofpimpalgaonthtevilage/servise/timerservise.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -15,6 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool rememberMe = false;
   final _formKey = GlobalKey<FormState>();
 
+
   @override
   void dispose() {
     emailController.dispose();
@@ -22,16 +28,18 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
+
   InputDecoration _decoration({
     required String hint,
     required Icon prefixicons,
-    IconButton? suffixicon
-  }){
-
+    IconButton? suffixicon}){
     return InputDecoration(
       hintText: hint,
       prefixIcon: prefixicons,
+
+
       suffixIcon: suffixicon,
+
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
       ),
@@ -40,12 +48,44 @@ class _LoginScreenState extends State<LoginScreen> {
         borderRadius: BorderRadius.circular(12),
       ),
 
-
-
     );
-
   }
 
+  Future<void>login() async{
+
+    try{
+      UserCredential userCredential = await Authservise().login(
+          emails: emailController.text,
+          passwords: passwordController.text);
+
+      Navigator.push(context, MaterialPageRoute(builder: (_)=>Mainnavigation()));
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text( "Login Succseful"),
+        ),
+      );
+      
+      HiveService.savelogintime();
+      
+      TimerService().startLogoutTimer(context);
+    }
+
+    on FirebaseAuthException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.message ?? "Login failed"),
+        ),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Something went wrong"),
+        ),
+      );
+    }
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -173,8 +213,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           controller: emailController,
 
                           decoration: _decoration(
-                              hint: "Email",
-                              prefixicons: const Icon(Icons.email_outlined),
+                            hint: "Email",
+                            prefixicons: const Icon(Icons.email_outlined),
 
                           ),
 
@@ -183,7 +223,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               return "Please enter email";
                             }
 
-                            if (!RegExp(r'^[\w\.-]+@[\w\.-]+\.\w+$')
+                            if (!RegExp(r'^[\w.-]+@[\w.-]+\.\w+$')
                                 .hasMatch(value.trim())) {
                               return "Please enter a valid email";
                             }
@@ -200,16 +240,16 @@ class _LoginScreenState extends State<LoginScreen> {
                           decoration:_decoration(
                               hint: 'Password',
                               prefixicons: Icon(Icons.lock),
-                             suffixicon: IconButton(
-                              onPressed: (){
-                        setState(() {
-                        obscurePassword=!obscurePassword;
-                        });
-                        },
-                            icon: obscurePassword
-                                ?Icon(Icons.visibility)
-                                :Icon(Icons.visibility_off)
-                        )
+                              suffixicon: IconButton(
+                                  onPressed: (){
+                                    setState(() {
+                                      obscurePassword=!obscurePassword;
+                                    });
+                                  },
+                                  icon: obscurePassword
+                                      ?Icon(Icons.visibility)
+                                      :Icon(Icons.visibility_off)
+                              )
 
                           ),
 
@@ -245,8 +285,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             onPressed: () {
 
-                              // TODO:
-                              // Firebase Login Here
+                              login();
 
                             },
                             child: const Text(
