@@ -1,11 +1,9 @@
 import 'package:adminpanelofpimpalgaonthtevilage/Screens/LoginScreen.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/Screens/addofficerscreen.dart';
+import 'package:adminpanelofpimpalgaonthtevilage/Screens/addphotoscreen.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/Screens/authwraper.dart';
-import 'package:adminpanelofpimpalgaonthtevilage/Screens/editoficerscreen.dart';
-import 'package:adminpanelofpimpalgaonthtevilage/Screens/imagescreen.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/Screens/mainnavigation.dart';
-import 'package:adminpanelofpimpalgaonthtevilage/Screens/officersscreen.dart';
-import 'package:adminpanelofpimpalgaonthtevilage/Screens/warningscreen.dart';
+
 import 'package:adminpanelofpimpalgaonthtevilage/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -24,10 +22,12 @@ void main() async {
 
   await Hive.openBox('appBox');
 
-  runApp(const MyApp());
+
+   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+
 
   const MyApp({super.key});
 
@@ -64,7 +64,7 @@ class MyApp extends StatelessWidget {
       ),
 
 
-      home:  AuthWrapper()//WarningUploadScreen()//Mainnavigation()//Imagescreen()//Imagescreen()//Mainnavigation()//Complaintscreen()//Mainnavigation(),
+      home: AuthWrapper()//WarningUploadScreen()//Mainnavigation()//Imagescreen()//Imagescreen()//Mainnavigation()//Complaintscreen()//Mainnavigation(),
     );
   }
 }

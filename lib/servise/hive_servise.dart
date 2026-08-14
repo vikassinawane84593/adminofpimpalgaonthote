@@ -21,13 +21,13 @@ class HiveService {
 
   static bool isSesionexpire() {
 
-    final DateTime loginTime =  box.get('LoginTime');
+     final DateTime? loginTime =  box.get('LoginTime',defaultValue: null);
 
     if (loginTime==null){
       return false;
     }
 
-    return DateTime.now().difference(loginTime).inMinutes >= 1;
+    return DateTime.now().difference(loginTime).inMinutes >= 10;
 
   }
 

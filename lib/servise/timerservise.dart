@@ -12,7 +12,7 @@ class TimerService {
     logoutTimer?.cancel();
 
     logoutTimer = Timer(
-      const Duration(minutes: 30),
+      const Duration(minutes: 10),
           () async {
         await FirebaseAuth.instance.signOut();
 

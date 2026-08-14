@@ -8,6 +8,7 @@ import 'package:adminpanelofpimpalgaonthtevilage/Screens/lighttimetableupload.da
 import 'package:adminpanelofpimpalgaonthtevilage/Screens/officersscreen.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/Screens/warningscreen.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/servise/hive_servise.dart';
+import 'package:adminpanelofpimpalgaonthtevilage/widgets/logout_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -46,12 +47,8 @@ class _MainnavigationState extends State<Mainnavigation> {
 
     WarningUploadScreen(),
 
-    _ComingSoonScreen(title: 'Logout'),
-  ];
 
-
-
-
+];
 
 
   @override
@@ -136,6 +133,15 @@ class _MainnavigationState extends State<Mainnavigation> {
               ),
 
               onDestinationSelected: (index) {
+
+                if(index==6){
+
+                  LogoutDialog.showalertdialog(context);
+
+                       return;
+
+                }
+
                 setState(() {
                   _selectedIndex = index;
                 });
@@ -158,18 +164,4 @@ class _MainnavigationState extends State<Mainnavigation> {
   }
 }
 
-class _ComingSoonScreen extends StatelessWidget {
-  final String title;
 
-  const _ComingSoonScreen({required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        title,
-        style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-      ),
-    );
-  }
-}
