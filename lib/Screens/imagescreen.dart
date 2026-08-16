@@ -2,6 +2,7 @@ import 'package:adminpanelofpimpalgaonthtevilage/Screens/addphotoscreen.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/Screens/full_image_screen.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/customwidgets/Imagewidget.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/customwidgets/custom_appbar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class Imagescreen extends StatefulWidget {
@@ -30,18 +31,18 @@ class _ImagescreenState extends State<Imagescreen> {
               width: double.infinity,
               child: TextButton(
 
-                style:TextButton.styleFrom(
-                  backgroundColor: Colors.green,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.horizontal()
-                  )
-                ),
+                  style:TextButton.styleFrom(
+                      backgroundColor: Colors.green,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.horizontal()
+                      )
+                  ),
                   onPressed: (){
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_)=>AddGalleryScreen())
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_)=>AddGalleryScreen())
 
-                  );
+                    );
 
                   }
                   , child: Text(
@@ -51,20 +52,47 @@ class _ImagescreenState extends State<Imagescreen> {
             ),
           ),
           Expanded(
-            child: ListView.builder(
-                itemCount: 10,
-                itemBuilder: (context,index) {
-                  return ImageCard(
-                    imagePath: 'https://picsum.photos/300/$index',
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute(
-                          builder: (_)=>FullImageScreen(imageurl: 'https://picsum.photos/300/$index',)
-                      ),
-                      );
-                    },
+            child: StreamBuilder(
+                stream: FirebaseFirestore.instance.collection('gallery').snapshots(),
+                builder: (context,snapshot) {
+                  if(!snapshot.hasData){
+                    return CircularProgressIndicator();
+                  }
+                  final docs = snapshot.data!.docs;
+                  return ListView.builder(
+                      itemCount: docs.length,
+                      itemBuilder: (context, index){
+
+                        final doc = docs[index];
+                        return ImageCard(
+                          imagePath: docs[index]['imageUrl'],
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(
+                                builder: (_)=>FullImageScreen(imageurl: doc['imageUrl'])
+                            ),
+                            );
+                          },
+
+                          onDelete: ()async {
+
+                            final publicId = doc['publicId'];
+                            final firebaseid = doc.id;
+
+                            print(publicId);
+
+                            await FirebaseFirestore.instance
+                                .collection('gallery')
+                                .doc(firebaseid)
+                                .delete();
+
+                          },
+
+                        );
+                      }
                   );
+
                 }
-                ),
+            ),
           ),
         ],
       ),

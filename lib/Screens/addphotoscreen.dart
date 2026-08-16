@@ -34,7 +34,7 @@ class _AddGalleryScreenState extends State<AddGalleryScreen> {
     }
   }
 
-  Future<String> uploadToCloudinary(XFile image) async {
+  Future<Map<String,dynamic>> uploadToCloudinary(XFile image) async {
     final url = Uri.parse(
       'https://api.cloudinary.com/v1_1/tzbaeh0q/image/upload',
     );
@@ -63,12 +63,15 @@ class _AddGalleryScreenState extends State<AddGalleryScreen> {
     if (response.statusCode == 200) {
       final data = jsonDecode(responseBody);
 
-      print('code ended');
 
-      return data['secure_url'];
+      return {
+        'url': data['secure_url'],
+        'publicId': data['public_id'],
+      };
+
+
     } else {
       final data = jsonDecode(responseBody);
-      print('code endid');
 
       throw Exception(
 
@@ -296,7 +299,7 @@ class _AddGalleryScreenState extends State<AddGalleryScreen> {
                               .now()
                               .millisecondsSinceEpoch).toString();
 
-                          final url = await uploadToCloudinary(image!);
+                          final data = await uploadToCloudinary(image!);
 
 
                           await FirebaseFirestore.instance
@@ -304,9 +307,10 @@ class _AddGalleryScreenState extends State<AddGalleryScreen> {
                               .add({
                             'name': namecontroller.text.trim(),
                             'caption': cationcontroller.text.trim(),
-                            'imageUrl': url,
+                            'imageUrl': data['url'],
                             'fileName': fileName,
                             'uploadedAt': FieldValue.serverTimestamp(),
+                            'publicId': data['publicId'],
                           });
 
 

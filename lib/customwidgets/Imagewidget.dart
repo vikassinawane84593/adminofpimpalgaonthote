@@ -8,7 +8,7 @@ class ImageCard extends StatelessWidget {
   const ImageCard({
     super.key,
     required this.imagePath,
-    this.onDelete,
+    required this.onDelete,
     this.onTap,
   });
 
