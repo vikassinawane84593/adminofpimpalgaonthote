@@ -12,6 +12,7 @@ import 'package:adminpanelofpimpalgaonthtevilage/customwidgets/zatpatkruti.dart'
 import 'package:adminpanelofpimpalgaonthtevilage/data/app_colour.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/data/dummy_data.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/theme/appdecoration.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class Homescreen extends StatefulWidget {
@@ -20,8 +21,32 @@ class Homescreen extends StatefulWidget {
   @override
   State<Homescreen> createState() => _HomescreenState();
 }
-
 class _HomescreenState extends State<Homescreen> {
+   String officercount='0';
+   String imagecount= '0';
+
+  @override
+  void initState() {
+    super.initState();
+
+    getCount();
+  }
+
+  Future<void> getCount() async {
+    final snapshot = await FirebaseFirestore.instance
+        .collection('officials')
+        .get();
+
+    final snapshot1 = await FirebaseFirestore.instance
+        .collection('gallery')
+        .get();
+
+    setState(() {
+      officercount = snapshot.docs.length.toString();
+      imagecount = snapshot1.docs.length.toString();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,11 +82,11 @@ class _HomescreenState extends State<Homescreen> {
                     children: [
                       Countwidget(
                         myColour: Colors.green,
-                        count: '10',
+                        count:officercount,
                         title: 'एकूण तक्रारी',
                         onTaps: () {
                           Navigator.push(context,
-                            MaterialPageRoute(builder: (_)=>Complaintscreen())
+                              MaterialPageRoute(builder: (_)=>Complaintscreen())
                           );
 
                         },
@@ -72,11 +97,11 @@ class _HomescreenState extends State<Homescreen> {
 
                       Countwidget(
                         myColour: Colors.orangeAccent,
-                        count: '25',
+                        count: imagecount,
                         title: 'सर्व फोटो',
                         onTaps: () {
                           Navigator.push(context,
-                          MaterialPageRoute(builder: (_)=>Imagescreen()));
+                              MaterialPageRoute(builder: (_)=>Imagescreen()));
 
                         },
                         icons: Icons.photo,
@@ -100,17 +125,17 @@ class _HomescreenState extends State<Homescreen> {
 
                       Countwidget(
                         myColour: Colors.deepPurple,
-                        count: '9',
+                        count: officercount,
                         title: ' एकूण पदाधिकारी',
                         onTaps: () {
-                          
+
                           Navigator.push(context, MaterialPageRoute(builder: (_)=>Officersscreen()));
-                          
+
                         },
                         icons: Icons.person_2_outlined,
                       ),
 
-                      SizedBox(width: 10),
+                      SizedBox(width: 13),
 
 
                     ],
@@ -157,23 +182,23 @@ class _HomescreenState extends State<Homescreen> {
                               title: 'फोटो अपलोड करा',
                               ontaps: (){
                                 Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (_)=>AddGalleryScreen())
+                                    context,
+                                    MaterialPageRoute(builder: (_)=>AddGalleryScreen())
                                 );
                               },
                             ),
 
                             Zatpatkruti(
-                              color: Colors.blue,
-                              icons: Icons.calendar_month_rounded,
-                              title: 'वेळापत्रक बदल',
-                              ontaps:  () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (_) => Lighttimetableupload())
-                                );
-                              }
+                                color: Colors.blue,
+                                icons: Icons.calendar_month_rounded,
+                                title: 'वेळापत्रक बदल',
+                                ontaps:  () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (_) => Lighttimetableupload())
+                                  );
+                                }
                             ),
 
                             Zatpatkruti(
@@ -181,12 +206,12 @@ class _HomescreenState extends State<Homescreen> {
                               icons: Icons.person_2_outlined,
                               title: 'नवीन अधिकारी जोडा',
                               ontaps: () {
-                            Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                            builder: (_) => AddOfficerScreen())
-                            );
-                            },
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => AddOfficerScreen())
+                                );
+                              },
                             ),
                           ],
                         ),
@@ -227,7 +252,7 @@ class _HomescreenState extends State<Homescreen> {
                             padding: const EdgeInsets.only(right: 24),
                             child: Row(
                               children: [
-                                
+
                                 Padding(
                                   padding: const EdgeInsets.only(left: 8),
                                   child: InkWell(
@@ -236,11 +261,11 @@ class _HomescreenState extends State<Homescreen> {
 
                                     },
                                     child: const Text(
-                                        'सर्व पाहा',
-                                        style: TextStyle(
+                                      'सर्व पाहा',
+                                      style: TextStyle(
                                           color: Colors.green,
                                           fontWeight: FontWeight.bold
-                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -306,7 +331,7 @@ class _HomescreenState extends State<Homescreen> {
                                   MaterialPageRoute(
                                     builder: (_) => FullImageScreen(
                                       imageurl:
-                                          'https://picsum.photos/300/30$index',
+                                      'https://picsum.photos/300/30$index',
                                     ),
                                   ),
                                 );
@@ -320,9 +345,9 @@ class _HomescreenState extends State<Homescreen> {
                 ),
               ),
 
-             //// its extra
+              //// its extra
 
-             /* Padding(
+              /* Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
                   decoration: AppDecoration.containerDecoration(Colors.white),
@@ -362,12 +387,12 @@ class _HomescreenState extends State<Homescreen> {
                       ),
 
                   )*/
-          ],
-                ),
-              ),
-
+            ],
           ),
-        );
+        ),
+
+      ),
+    );
 
   }
 }

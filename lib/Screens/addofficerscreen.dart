@@ -1,8 +1,12 @@
-import 'dart:io';
+import 'dart:convert';
 
 import 'package:adminpanelofpimpalgaonthtevilage/customwidgets/custom_appbar.dart';
+import 'package:adminpanelofpimpalgaonthtevilage/model/officers_model.dart';
+import 'package:adminpanelofpimpalgaonthtevilage/servise/clounderyimageservise.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+
 
 class AddOfficerScreen extends StatefulWidget {
   const AddOfficerScreen({super.key});
@@ -26,6 +30,7 @@ class _AddOfficerScreenState extends State<AddOfficerScreen> {
 
   XFile? _officerPhoto;
   String? _selectedPost;
+  bool loading = false;
 
   @override
   void dispose() {
@@ -47,6 +52,76 @@ class _AddOfficerScreenState extends State<AddOfficerScreen> {
         _officerPhoto = photo;
 
       });
+    }
+  }
+
+
+
+  Future<void> _saveOfficer() async {
+
+    try {
+      setState(() {
+        loading=true;
+      });
+      // Cloudinary वर image upload
+      final data = await uploadToCloudinary(_officerPhoto!);
+
+      final officer = OfficerModel(
+        name: _nameController.text.trim(),
+        mobile: _mobileController.text.trim(),
+        post: _selectedPost!,
+        imageUrl: data['url'],
+        publicId: data['publicId'],
+      );
+
+
+        ///await FirebaseFirestore.instance
+         /// .collection('officials')
+         /// .add({
+        ///'name': _nameController.text.trim(),
+   ///     'mobile': _mobileController.text.trim(),
+      ///  'post': _selectedPost,
+     ///   'imageUrl': data['url'],
+      ///  'publicId': data['publicId'],
+     ///   'uploadedAt': FieldValue.serverTimestamp(),
+    ///  });
+
+      await FirebaseFirestore.instance
+          .collection('officials')
+          .add({
+        ...officer.toMap(),
+        'uploadedAt': FieldValue.serverTimestamp(),
+      });
+
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('पदाधिकारी यशस्वीरित्या सेव्ह झाला'),
+        ),
+      );
+
+      setState(() {
+        loading=false;
+        _officerPhoto=null;
+        _nameController.clear();
+        _mobileController.clear();
+      });
+
+
+    } catch (e) {
+
+      setState(() {
+        loading= false;
+      });
+
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error: $e'),
+        ),
+      );
     }
   }
 
@@ -157,9 +232,9 @@ class _AddOfficerScreenState extends State<AddOfficerScreen> {
                             image: _officerPhoto == null
                                 ? null
                                 : DecorationImage(
-                                    image: NetworkImage(_officerPhoto!.path),//,FileImage(File(_officerPhoto!.path)),
-                                    fit: BoxFit.cover,
-                                  ),
+                              image: NetworkImage(_officerPhoto!.path),//,FileImage(File(_officerPhoto!.path)),
+                              fit: BoxFit.cover,
+                            ),
                           ),
                           child: _officerPhoto == null
                               ? const Icon(Icons.person_outline, size: 52, color: green)
@@ -239,9 +314,9 @@ class _AddOfficerScreenState extends State<AddOfficerScreen> {
                         ),
                         items: _posts
                             .map((post) => DropdownMenuItem(
-                                  value: post,
-                                  child: Text(post),
-                                ))
+                          value: post,
+                          child: Text(post),
+                        ))
                             .toList(),
                         onChanged: (value) => setState(() => _selectedPost = value),
                         validator: (value) => value == null ? 'कृपया पद निवडा' : null,
@@ -258,12 +333,30 @@ class _AddOfficerScreenState extends State<AddOfficerScreen> {
                     backgroundColor: green,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
                   ),
-                  onPressed: () {
+                  onPressed: loading
+                      ?null
+                      :() {
                     if (_formKey.currentState!.validate()) {
-                      // Save the officer details and _officerPhoto in the data layer.
+                      if(_officerPhoto!=null){
+                        _saveOfficer();
+                      }
+                      else{
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('कृपया फोटो निवडा'),
+                          ),
+                        );
+                      }
+
                     }
                   },
-                  icon: const Icon(Icons.save_outlined),
+                  icon: loading
+                      ? const CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: Colors.black,
+                  )
+                      :const Icon(Icons.save_outlined),
+
                   label: const Text('सेव्ह करा', style: TextStyle(fontSize: 16)),
                 ),
               ),

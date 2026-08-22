@@ -6,7 +6,7 @@ import 'package:image_picker/image_picker.dart';
 
 class EditOfficerScreen extends StatefulWidget {
 
-  final Map<String, String> officerData;
+  final Map<String, dynamic> officerData;
   const EditOfficerScreen({
     super.key,
     required this.officerData
@@ -31,6 +31,13 @@ class _EditOfficerScreenState extends State<EditOfficerScreen> {
 
   XFile? image;
 
+  String? publicid;
+
+  String? imageurl;
+
+  bool isloading = false;
+
+  final _formkey = GlobalKey<FormState>();
   final List<Map<String, String>> menu = [
     {'post': 'सरपंच', 'value': 'सरपंच'},
     {'post': 'उपसरपंच', 'value': 'उपसरपंच'},
@@ -44,9 +51,13 @@ class _EditOfficerScreenState extends State<EditOfficerScreen> {
 
     nameController = TextEditingController(text: widget.officerData['name']);
 
-    mobileController = TextEditingController(text: widget.officerData['phone']);
+    mobileController = TextEditingController(text: widget.officerData['mobile']);
 
-    selectedPost = widget.officerData['position'];
+    selectedPost = widget.officerData['post'];
+
+    imageurl = widget.officerData['imageUrl'];
+
+    publicid = widget.officerData['publicId'];
   }
 
   @override
@@ -75,7 +86,9 @@ class _EditOfficerScreenState extends State<EditOfficerScreen> {
       appBar: const CustomAppBar(
         title: "पदाधिकारी संपादित करा",
       ),
-      body: SingleChildScrollView(
+      body:isloading
+          ?Center(child: CircularProgressIndicator(),)
+          :SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
@@ -86,114 +99,149 @@ class _EditOfficerScreenState extends State<EditOfficerScreen> {
               ),
               child: Padding(
                 padding: const EdgeInsets.all(16),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        CircleAvatar(
-                          radius: 22,
-                          backgroundColor: Color(0xffE8F5E9),
-                          child: Icon(
-                            Icons.edit,
-                            color: Color(0xff98c39b),
+                child: Form(
+                  key: _formkey,
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 22,
+                            backgroundColor: Color(0xffE8F5E9),
+                            child: Icon(
+                              Icons.edit,
+                              color: Color(0xff98c39b),
+                            ),
+                          ),
+                          SizedBox(width: 15),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "पदाधिकारी माहिती",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text("माहितीमध्ये आवश्यक बदल करा"),
+                            ],
+                          ),
+
+                          Spacer(),
+
+                          GestureDetector(
+                            child: CircleAvatar(
+                                foregroundImage: NetworkImage(
+                                    image!=null
+                                        ?image!.path
+                                        :imageurl!
+                                ),
+
+
+                                radius: 30,
+                                backgroundColor: Color(0xffb7eabb),
+
+
+                                child:
+                                image==null?
+                                IconButton(onPressed: (){
+
+                                  imagepicers();
+
+                                },
+                                    icon: Icon(
+                                      Icons.add_a_photo,
+                                      color: Colors.black,
+                                    ))
+                                    :null
+
+
+                            ),
+
+                            onTap: (){
+                              imagepicers();
+                            },
+                          )
+                        ],
+                      ),
+                      const SizedBox(height: 25),
+
+                      TextFormField(
+                        controller: nameController,
+                        decoration: InputDecoration(
+                          labelText: "पदाधिकाऱ्याचे नाव",
+                          prefixIcon: const Icon(Icons.person),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
                           ),
                         ),
-                        SizedBox(width: 15),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "पदाधिकारी माहिती",
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text("माहितीमध्ये आवश्यक बदल करा"),
-                          ],
-                        ),
+                        validator: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return 'Please enter officer name';
+                          }
+                          return null;
+                        },
 
-                        Spacer(),
-
-                        CircleAvatar(
-                          foregroundImage: image!=null
-                              ?NetworkImage(image!.path)
-                              :null,
-
-                            radius: 30,
-                            backgroundColor: Color(0xffb7eabb),
-
-
-                            child:
-                            image==null?
-                            IconButton(onPressed: (){
-
-                              imagepicers();
-
-                            },
-                                icon: Icon(
-                                  Icons.add_a_photo,
-                                  color: Colors.black,
-                                ))
-                                :null
-
-
-                        )
-                      ],
-                    ),
-                    const SizedBox(height: 25),
-
-                    TextField(
-                      controller: nameController,
-                      decoration: InputDecoration(
-                        labelText: "पदाधिकाऱ्याचे नाव",
-                        prefixIcon: const Icon(Icons.person),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
                       ),
-                    ),
 
-                    const SizedBox(height: 20),
+                      const SizedBox(height: 20),
 
-                    TextField(
-                      controller: mobileController,
-                      keyboardType: TextInputType.phone,
-                      maxLength: 10,
-                      decoration: InputDecoration(
-                        counterText: "",
-                        labelText: "मोबाईल नंबर",
-                        prefixIcon: const Icon(Icons.phone),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
+                      TextFormField(
+                        controller: mobileController,
+                        keyboardType: TextInputType.phone,
+                        maxLength: 10,
+                        decoration: InputDecoration(
+                          counterText: "",
+                          labelText: "मोबाईल नंबर",
+                          prefixIcon: const Icon(Icons.phone),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
                         ),
+                        validator: (value){
+                          if (value == null || value.isEmpty) {
+                            return 'Enter mobile number';
+                          }
+
+                          if (value.length != 10) {
+                            return 'Enter a valid 10-digit mobile number';
+                          }
+
+                          if (int.tryParse(value) == null) {
+                            return 'Only numbers are allowed';
+                          }
+
+                          return null;
+
+                        },
                       ),
-                    ),
 
-                    const SizedBox(height: 20),
+                      const SizedBox(height: 20),
 
-                    DropdownButtonFormField<String>(
-                      value: selectedPost,
-                      decoration: InputDecoration(
-                        labelText: "पद",
-                        prefixIcon: const Icon(Icons.work_outline),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
+                      DropdownButtonFormField<String>(
+                        value: selectedPost,
+                        decoration: InputDecoration(
+                          labelText: "पद",
+                          prefixIcon: const Icon(Icons.work_outline),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
                         ),
+                        items: menu.map((e) {
+                          return DropdownMenuItem<String>(
+                            value: e['value'],
+                            child: Text(e['post']!),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            selectedPost = value;
+                          });
+                        },
                       ),
-                      items: menu.map((e) {
-                        return DropdownMenuItem<String>(
-                          value: e['value'],
-                          child: Text(e['post']!),
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        setState(() {
-                          selectedPost = value;
-                        });
-                      },
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -204,20 +252,30 @@ class _EditOfficerScreenState extends State<EditOfficerScreen> {
               width: double.infinity,
               height: 55,
               child: FilledButton.icon(
-                onPressed: () {
+                onPressed: () async {
+                  if(_formkey.currentState!.validate()){
 
-                  Navigator.pop(context, {
+                    setState(() {
+                      isloading=true;
+                    });
 
-
-                    "name": nameController.text,
-                    "position": selectedPost!,
-                    "phone": mobileController.text,
-
-
-                  });
+                    await Future.delayed(Duration(seconds: 2));
 
 
+
+                    Navigator.pop(context, {
+
+                      'image': image,
+                      "mobile": mobileController.text,
+                      "name": nameController.text,
+                      "post": selectedPost,
+                      'publicId':publicid
+
+
+                    });
+                  }
                 },
+
                 icon: const Icon(Icons.save),
                 label: const Text(
                   "बदल जतन करा",

@@ -1,20 +1,15 @@
+import 'package:adminpanelofpimpalgaonthtevilage/model/officers_model.dart';
 import 'package:flutter/material.dart';
 
 class OfficerCard extends StatelessWidget {
-  final String name;
-  final String position;
-  final String phone;
-  final String imageUrl;
 
+  final OfficerModel model;
   final VoidCallback onEdit;
   final VoidCallback onDelete;
 
   const OfficerCard({
     super.key,
-    required this.name,
-    required this.position,
-    required this.phone,
-    required this.imageUrl,
+    required this.model,
     required this.onEdit,
     required this.onDelete,
   });
@@ -32,22 +27,39 @@ class OfficerCard extends StatelessWidget {
         child: Row(
           children: [
 
-            /// Officer Image
+
             CircleAvatar(
               radius: 35,
-              backgroundImage: NetworkImage(imageUrl),
+              child: ClipOval(
+
+
+                child: Image.network(
+                  width: 70,
+                    height: 70,
+                    fit: BoxFit.cover,
+                    model.imageUrl,
+                  loadingBuilder: (context,child,loading){
+                      if(loading==null){
+                        return child;
+                      }
+
+                      return CircularProgressIndicator();
+                  },
+
+                ),
+              ),
             ),
 
             const SizedBox(width: 15),
 
-            /// Officer Details
+
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
 
                   Text(
-                    name,
+                    model.name,
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -57,7 +69,7 @@ class OfficerCard extends StatelessWidget {
                   const SizedBox(height: 5),
 
                   Text(
-                    position,
+                    model.post,
                     style: const TextStyle(
                       fontSize: 15,
                       color: Colors.grey,
@@ -67,7 +79,7 @@ class OfficerCard extends StatelessWidget {
                   const SizedBox(height: 5),
 
                   Text(
-                    phone,
+                    model.mobile,
                     style: const TextStyle(fontSize: 14),
                   ),
 

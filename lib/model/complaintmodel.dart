@@ -23,7 +23,7 @@ class Complaintmodel {
 
     return Complaintmodel(
 
-        id: map['id'],
+        id: map['id']??'',
         name: map['name']??'null',
         mobnumber: map['mobnumber']??'null',
         related: map['related']??'null',

@@ -13,6 +13,14 @@ class Imagescreen extends StatefulWidget {
 }
 
 class _ImagescreenState extends State<Imagescreen> {
+  Future  ondelet(  String docid) async {
+
+    await FirebaseFirestore.instance
+        .collection('gallery')
+        .doc(docid)
+        .delete();
+
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,20 +81,11 @@ class _ImagescreenState extends State<Imagescreen> {
                             );
                           },
 
-                          onDelete: ()async {
+                          onDelete:() {
 
-                            final publicId = doc['publicId'];
-                            final firebaseid = doc.id;
+                            ondelet( doc.id);
 
-                            print(publicId);
-
-                            await FirebaseFirestore.instance
-                                .collection('gallery')
-                                .doc(firebaseid)
-                                .delete();
-
-                          },
-
+                          }
                         );
                       }
                   );
