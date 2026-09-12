@@ -18,7 +18,11 @@ class _EditComplaintScreenState extends State<EditComplaintScreen> {
   late TextEditingController mobileController;
   late TextEditingController relatedController;
 
-  String status = "Pending";
+  late String condition;
+
+     String status = 'Pending' ;
+
+
 
   @override
   void initState() {
@@ -27,12 +31,15 @@ class _EditComplaintScreenState extends State<EditComplaintScreen> {
 
     nameController = TextEditingController(text: widget.complaint.name);
 
-    mobileController = TextEditingController(text: widget.complaint.mobnumber.toString(),);
+    mobileController = TextEditingController(text: widget.complaint.mobile.toString(),);
 
-    relatedController = TextEditingController(text: widget.complaint.related,);
+    relatedController = TextEditingController(text: widget.complaint.problemType,);
 
-    status = widget.complaint.conditionl;
+
+
+
   }
+
 
   @override
   void dispose() {
@@ -126,13 +133,14 @@ class _EditComplaintScreenState extends State<EditComplaintScreen> {
                   Navigator.pop(
                     context,
                     Complaintmodel(
-                      id: widget.complaint.id,
+
                       name: nameController.text,
-                      mobnumber: int.parse(mobileController.text),
-                      related: relatedController.text,
-                      date: widget.complaint.date,
-                      time: widget.complaint.time,
+                      mobile: mobileController.text,
+                      problemType: relatedController.text,
+                      description : widget.complaint.description,
+                    //  timestamp: widget.complaint.timestamp,
                       conditionl: status,
+
                     ),
                   );
                 },

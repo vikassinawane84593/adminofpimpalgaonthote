@@ -19,6 +19,9 @@ class Complaintwidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final String firstletter = complaintmodel.name[0];
+    final lenth = complaintmodel.description.toString().length;
+
+    final deslenth = lenth>=15?15:lenth;
 
     return Container(
       //height: 60,
@@ -72,7 +75,7 @@ class Complaintwidget extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(left: 8),
                   child: Text(
-                    complaintmodel.related,
+                    complaintmodel.problemType,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 14,
@@ -88,7 +91,7 @@ class Complaintwidget extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(left: 8),
                         child: Text(
-                          complaintmodel.date,
+                          complaintmodel.mobile,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 14,
@@ -108,7 +111,7 @@ class Complaintwidget extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(left: 2),
                         child: Text(
-                          complaintmodel.time,
+                          '${((complaintmodel.description)).substring(0,deslenth)}...',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 14,
@@ -135,7 +138,10 @@ class Complaintwidget extends StatelessWidget {
               padding: const EdgeInsets.only(left: 8),
               child: IconButton(
                   onPressed: ontap,
-                  icon: Icon(Icons.edit))
+                  icon: Icon(
+                      Icons.edit,
+                    color: Colors.black,
+                  ))
             )
           ],
         ),

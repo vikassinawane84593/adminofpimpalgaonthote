@@ -1,21 +1,19 @@
 class Complaintmodel {
-  final String id;
   final String name;
-  final int mobnumber;
-  final String related;
-  final String date;
-  final String time;
+  final String mobile;
+  final String problemType;
+  final description;
+ // final String timestamp;
   final String conditionl;
 
 
   Complaintmodel({
 
-    required this.id,
     required this.name,
-    required this.mobnumber,
-    required this.related,
-    required this.date,
-    required this.time,
+    required this.mobile,
+    required this.problemType,
+    required this.description,
+    //required this.timestamp,
     required this.conditionl
 
   });
@@ -23,17 +21,27 @@ class Complaintmodel {
 
     return Complaintmodel(
 
-        id: map['id']??'',
         name: map['name']??'null',
-        mobnumber: map['mobnumber']??'null',
-        related: map['related']??'null',
-        date: map['Date']??'null',
-        time: map['time']??'',
-        conditionl: map['condotion']
+        mobile: map['mobile']??'null',
+        problemType : map['problemType']??'',
+        description :map['problemDescription'],
+      //  timestamp: map['timestamp'].toString()??'',
+        conditionl: map['condition']??''
 
 
 
     );
 
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'mobile': mobile,
+      'problemType': problemType,
+      'problemDescription': description,
+      //'timestamp': timestamp,
+      'condition': conditionl,
+    };
   }
 }

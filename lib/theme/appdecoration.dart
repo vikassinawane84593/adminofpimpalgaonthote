@@ -16,3 +16,9 @@ class AppDecoration {
     );
   }
 }
+
+BoxDecoration decoration = BoxDecoration(
+      border: Border.all(color: Colors.grey),
+      borderRadius: BorderRadius.circular(8),
+      color: Color.lerp(Colors.green, Colors.white, 0.99)
+);

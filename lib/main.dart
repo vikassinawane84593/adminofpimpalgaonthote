@@ -3,6 +3,7 @@ import 'package:adminpanelofpimpalgaonthtevilage/Screens/addofficerscreen.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/Screens/addphotoscreen.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/Screens/authwraper.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/Screens/imagescreen.dart';
+import 'package:adminpanelofpimpalgaonthtevilage/Screens/lighttimetableupload.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/Screens/mainnavigation.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/Screens/officersscreen.dart';
 
@@ -66,7 +67,7 @@ class MyApp extends StatelessWidget {
       ),
 
 
-      home: Mainnavigation()//Mainnavigation()//AuthWrapper()//WarningUploadScreen()//Mainnavigation()//Imagescreen()//Imagescreen()//Mainnavigation()//Complaintscreen()//Mainnavigation(),
+      home: Lighttimetableupload()//Mainnavigation()//Mainnavigation()//AuthWrapper()//WarningUploadScreen()//Mainnavigation()//Imagescreen()//Imagescreen()//Mainnavigation()//Complaintscreen()//Mainnavigation(),
     );
   }
 }

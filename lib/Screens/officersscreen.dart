@@ -87,6 +87,25 @@ class _OfficersscreenState extends State<Officersscreen> {
 
 
   }
+  Future<void> ondelet(String id) async{
+    try{
+      await FirebaseFirestore.
+      instance.
+      collection('officials').
+      doc(id).
+      delete();
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('पदाधिकाऱ्याची माहिती delete झाली'))
+      );
+
+    }
+
+     catch(e){
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Delete करताना त्रुटी आली: $e')));
+     }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -130,7 +149,9 @@ class _OfficersscreenState extends State<Officersscreen> {
                       model:data ,
                       onEdit: ()=>  edit(doc, docid),
 
-                      onDelete: (){}
+                      onDelete: (){
+                        ondelet(docid);
+                      }
                   );
 
 

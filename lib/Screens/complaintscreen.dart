@@ -4,6 +4,7 @@ import 'package:adminpanelofpimpalgaonthtevilage/customwidgets/custom_appbar.dar
 import 'package:adminpanelofpimpalgaonthtevilage/data/app_colour.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/data/dummy_data.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/model/complaintmodel.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class Complaintscreen extends StatefulWidget {
@@ -14,41 +15,116 @@ class Complaintscreen extends StatefulWidget {
 }
 
 class _ComplaintscreenState extends State<Complaintscreen> {
+
+  Future <void> updateComplaint(Complaintmodel complaint,String id) async {
+    try {
+
+      await FirebaseFirestore.instance
+          .collection('complaints')
+          .doc(id)
+          .update(
+         {
+           ...complaint.toMap(),
+           'timestamp': FieldValue.serverTimestamp(),
+         });
+
+      ScaffoldMessenger.of(context).
+      showSnackBar(
+          SnackBar(
+              content: Text(
+                  'updated successfully')
+          ));
+    } catch (e) {
+
+      ScaffoldMessenger.of(context).
+      showSnackBar(
+          SnackBar(content: Text(
+              'FAiled to update complaint: $e')
+          ));
+
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-    //  appBar: CustomAppBar(title: 'पिंपळगाव थोटे'),
+      //  appBar: CustomAppBar(title: 'पिंपळगाव थोटे'),
 
 
-      body: ListView.builder(
-        itemCount: complaintList.length,
-        itemBuilder: (context, index) {
+      body: StreamBuilder(
+          stream: FirebaseFirestore.instance.collection('complaints').snapshots(),
+          builder: (context, asyncSnapshot) {
 
-          return Complaintwidget(
-              color:AppColors.avatarColors[index % (AppColors.avatarColors.length)],
+            // print(doc.runtimeType);
 
-              complaintmodel: complaintList[index],
+            if(asyncSnapshot.hasError){
 
-              ontap: ()async {
-                final updatedcomplaint = await Navigator.push(
-                    context,
-                  MaterialPageRoute(
-                      builder: (_)=>EditComplaintScreen(
-                      complaint: complaintList[index]
-                      )
-                  )
+              return Center(
+                child: Text('error : ${asyncSnapshot.error}'),
+              );
+            }
+
+            if(!asyncSnapshot.hasData){
+              return Center(
+                child: SizedBox(
+                  height: 50,
+                  width: 50,
+                  child: CircularProgressIndicator(
+                    color: Colors.black,
+                  ),
+                ),
+              );
+            }
+
+
+
+
+            final doc = asyncSnapshot.data!.docs;
+
+
+            if (doc.isEmpty) {
+              return const Center(
+                child: Text(
+                  'No complaints',
+                  style: TextStyle(fontSize: 18),
+                ),
+              );
+            }
+
+
+            return ListView.builder(
+
+              itemCount:doc.length,
+              itemBuilder: (context, index) {
+                final complaint = doc[index].data();
+                final complaintId = doc[index].id;
+
+                return Complaintwidget(
+                  color:AppColors.avatarColors[index % (AppColors.avatarColors.length)],
+
+                  complaintmodel:Complaintmodel.fromMap(complaint),
+
+
+                  ontap: ()async {
+                    final  Complaintmodel updatedcomplaint = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_)=>EditComplaintScreen(
+                                complaint: Complaintmodel.fromMap(complaint)
+                            )
+                        )
+                    );
+
+                    if(updatedcomplaint!=null){
+                      updateComplaint(updatedcomplaint,complaintId);
+                    }
+                  },
+
+                  isshow: true,
                 );
-
-                if(updatedcomplaint!=null){
-                  setState(() {
-                    complaintList[index]=updatedcomplaint;
-                  });
-                }
               },
-
-            isshow: true,
-          );
-        },
+            );
+          }
       ),
     );
   }

@@ -1,6 +1,7 @@
 import 'package:adminpanelofpimpalgaonthtevilage/Screens/addofficerscreen.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/Screens/addphotoscreen.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/Screens/complaintscreen.dart';
+import 'package:adminpanelofpimpalgaonthtevilage/Screens/editcomplaintscreen.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/Screens/full_image_screen.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/Screens/imagescreen.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/Screens/lighttimetableupload.dart';
@@ -11,6 +12,7 @@ import 'package:adminpanelofpimpalgaonthtevilage/customwidgets/recentlyimage.dar
 import 'package:adminpanelofpimpalgaonthtevilage/customwidgets/zatpatkruti.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/data/app_colour.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/data/dummy_data.dart';
+import 'package:adminpanelofpimpalgaonthtevilage/model/complaintmodel.dart';
 import 'package:adminpanelofpimpalgaonthtevilage/theme/appdecoration.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +26,7 @@ class Homescreen extends StatefulWidget {
 class _HomescreenState extends State<Homescreen> {
    String officercount='0';
    String imagecount= '0';
-
+   String complaintcount = '0';
   @override
   void initState() {
     super.initState();
@@ -41,9 +43,14 @@ class _HomescreenState extends State<Homescreen> {
         .collection('gallery')
         .get();
 
+    final snapshot2 = await FirebaseFirestore.instance
+        .collection('complaints')
+        .get();
+
     setState(() {
       officercount = snapshot.docs.length.toString();
       imagecount = snapshot1.docs.length.toString();
+      complaintcount =  snapshot2.docs.length.toString();
     });
   }
 
@@ -82,7 +89,7 @@ class _HomescreenState extends State<Homescreen> {
                     children: [
                       Countwidget(
                         myColour: Colors.green,
-                        count:officercount,
+                        count:complaintcount,
                         title: 'एकूण तक्रारी',
                         onTaps: () {
                           Navigator.push(context,
@@ -281,21 +288,92 @@ class _HomescreenState extends State<Homescreen> {
                         ],
                       ),
 
-                      ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: 5,
-                        itemBuilder: (context, index) {
-                          return Complaintwidget(
-                            color: AppColors.avatarColors[index % (AppColors.avatarColors.length)],
-                            complaintmodel: complaintList[index],
-                            isshow: false,
-                          );
-                        },
+
+                      StreamBuilder(
+
+                          stream: FirebaseFirestore.instance.collection('complaints').snapshots(),
+                          builder: (context, asyncSnapshot) {
+
+                            // print(doc.runtimeType);
+
+                            if(asyncSnapshot.hasError){
+
+                              return Center(
+                                child: Text('error : ${asyncSnapshot.error}'),
+                              );
+                            }
+
+                            if(!asyncSnapshot.hasData){
+                              return Center(
+                                child: SizedBox(
+                                  height: 50,
+                                  width: 50,
+                                  child: CircularProgressIndicator(
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              );
+                            }
+
+                            if(asyncSnapshot.connectionState==ConnectionState.waiting){
+                              return Center(
+                                child: SizedBox(
+                                  height: 50,
+                                  width: 50,
+                                  child: CircularProgressIndicator(
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              );
+                            }
+
+
+
+                            final doc = asyncSnapshot.data!.docs;
+
+
+                            if (doc.isEmpty) {
+                              return const Center(
+                                child: Text(
+                                  'No complaints',
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                              );
+                            }
+
+
+                            return ListView.builder(
+
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+
+                              itemCount:doc.length,
+                              itemBuilder: (context, index) {
+                                final complaint = doc[index].data();
+                                return Complaintwidget(
+                                  color:AppColors.avatarColors[index % (AppColors.avatarColors.length)],
+
+                                  complaintmodel:Complaintmodel.fromMap(complaint),
+
+                                  ontap: ()async {
+
+                                  },
+
+                                  isshow: false,
+                                );
+                              },
+                            );
+                          }
                       ),
+
+
                     ],
                   ),
                 ),
               ),
+
+
+
 
               Padding(
                 padding: const EdgeInsets.only(left: 10, right: 14, top: 20),
